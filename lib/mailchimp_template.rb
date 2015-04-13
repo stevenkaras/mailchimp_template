@@ -25,7 +25,7 @@ class MailchimpTemplate
       when "CURRENT_YEAR"
         Date.today.year
       else
-        merge_tags[$~[:tag_name]]
+        merge_tags[$~[:tag_name]] || match
       end
     end
 
