@@ -8,6 +8,7 @@ Ruby implementation of [Mailchimp's Template Language][mc-template-language]. No
 
 - [x] Generic Merge Tags
 - [ ] System Merge Tags
+- [ ] Conditional Merge Tags
 - [ ] Editable regions
 - [ ] Repeatable regions
 
