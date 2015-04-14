@@ -9,7 +9,7 @@ Ruby implementation of [Mailchimp's Template Language][mc-template-language]. No
 - [x] Generic Merge Tags
 - [ ] System Merge Tags
 - [ ] Conditional Merge Tags
-- [ ] Editable regions
+- [x] Editable regions
 - [ ] Repeatable regions
 
 ## Installation
@@ -28,9 +28,17 @@ Or install it yourself as:
 
 ## Usage
 
+
 ```ruby
 template = MailchimpTemplate.new("hello, *|MERGETAG|*")
 template.render(merge_tags: {"MERGETAG" => "world"})
+```
+
+### Editable regions
+
+```ruby
+template = MailchimpTemplate.new('hello, <div mc:edit="body">lorem ipsum</body>')
+template.render(regions: { "body" => "world" })
 ```
 
 ## Contributing

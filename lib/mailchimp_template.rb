@@ -1,12 +1,19 @@
 require File.expand_path("mailchimp_template/version", __dir__)
 
+require "nokogiri"
+
 class MailchimpTemplate
   def initialize(template)
     @template = template
   end
 
   def render(merge_tags: {}, regions: {})
-    result = @template.dup
+    html = Nokogiri::HTML::DocumentFragment.parse(@template)
+    html.css("*").select { |n| n.attr("mc:edit") }.each do |editable_region|
+      editable_region.children = Nokogiri::HTML::DocumentFragment.parse(regions[editable_region.attr("mc:edit")])
+      editable_region.remove_attribute("mc:edit")
+    end
+    result = html.to_s
 
     result.gsub! /\*\|(?<tag_name>.+?)\|\*/ do |match|
       case $~[:tag_name]
