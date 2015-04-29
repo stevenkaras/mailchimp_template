@@ -8,7 +8,8 @@ class MailchimpTemplate
   end
 
   def render(merge_tags: {}, regions: {})
-    result = render_regions(@template, regions)
+    result = @template
+    result = render_regions(result, regions)
     return render_merge_tags(result, merge_tags)
   end
 
@@ -26,7 +27,8 @@ class MailchimpTemplate
   end
 
   def render_merge_tags(template, merge_tags = {})
-    template.gsub! /\*\|(?<tag_name>.+?)\|\*/ do |match|
+    # | is %7C when escaped by Nokogiri
+    template.gsub! /\*(?:\||%7C)(?<tag_name>.+?)(?:\||%7C)\*/ do |match|
       tag_name = $~[:tag_name]
       case tag_name
       when /^IF:(?<cond>.+)/, /^IFNOT:(?<cond>.+)/, /^ELSEIF:(?<cond>.+)/, "ELSE:", "END:IF"
