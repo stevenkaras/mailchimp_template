@@ -7,7 +7,9 @@ class MailchimpTemplate
     @template = template
   end
 
-  def render(merge_tags: {}, regions: {})
+  def render(options = {})
+    merge_tags = options.delete(:merge_tags)
+    regions = options.delete(:regions)
     result = @template
     result = render_regions(result, regions)
     return render_merge_tags(result, merge_tags)
