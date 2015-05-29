@@ -15,4 +15,9 @@ describe MailchimpTemplate do
     expect(result).to eq "hello, <div>world</div>"
   end
 
+  it "should render merge tags that get clobbered by nokogiri" do
+    result = MailchimpTemplate.new(nil).render_merge_tags('<img src="*%7CIMG_SOURCE%7C*">', {"IMG_SOURCE" => "http://example.com/image.png"})
+    expect(result).to eq '<img src="http://example.com/image.png">'
+  end
+
 end
